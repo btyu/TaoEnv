@@ -3,14 +3,7 @@ FROM registry.cn-shanghai.aliyuncs.com/taons/taoenv-base:v1.0-ub16.04-cuda10.2-c
 
 # Install music related libraries
 RUN pip install --no-cache-dir \
-    py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 pyarrow
-
-# Install fairseq
-RUN git clone https://github.com/pytorch/fairseq \
- && cd fairseq \
- && pip install --editable ./ \
- && cd .. \
- && rm -r ./fairseq
+    py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 fairseq==0.10.2 pyarrow==4.0.0
 
 # Set the default command to bash
 CMD ["bash"]

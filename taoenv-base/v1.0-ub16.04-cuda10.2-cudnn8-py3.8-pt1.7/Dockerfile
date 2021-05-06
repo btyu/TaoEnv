@@ -1,5 +1,5 @@
 # Build from basic image: Ubuntu 16.04 with CUDA 10.2
-FROM nvidia/cuda:10.2-cudnn8-runtime-ubuntu16.04
+FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu16.04
 
 # Set localization to Chinese
 ENV LANG C.UTF-8
