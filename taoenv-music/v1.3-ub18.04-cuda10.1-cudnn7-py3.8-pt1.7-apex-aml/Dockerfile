@@ -12,7 +12,7 @@ WORKDIR /root
 ENV CONDA_AUTO_UPDATE_CONDA=false
 
 RUN conda init \
- && source ~/.bashrc \
+ && eval "$('/opt/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)" \
  && echo 'channels:\n\
   - defaults\n\
 show_channel_urls: true\n\
