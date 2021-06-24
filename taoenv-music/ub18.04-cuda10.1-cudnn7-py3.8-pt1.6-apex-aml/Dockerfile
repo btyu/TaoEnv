@@ -8,7 +8,9 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shangh
 ENV HOME=/root
 WORKDIR /root
 
-RUN apt install -y vim screen
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends apt-utils \
+ && apt-get install -y vim screen
 
 # Install Miniconda
 ENV CONDA_AUTO_UPDATE_CONDA=false
