@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04
 
 # Time zone
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
+# RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' > /etc/timezone
 
 # Set Home Environment
 ENV HOME=/root
@@ -15,7 +15,17 @@ RUN apt-get update \
 # Install Miniconda
 ENV CONDA_AUTO_UPDATE_CONDA=false
 
-RUN conda init \
+RUN echo '__conda_setup="$(/opt/miniconda/bin/conda shell.bash hook 2> /dev/null)"\n' >> /etc/profile \
+ && echo 'if [ $? -eq 0 ]; then\n' >> /etc/profile \
+ && echo 'eval "$__conda_setup"\n' >> /etc/profile \
+ && echo 'else\n' >> /etc/profile \
+ && echo '    if [ -f "/opt/miniconda/etc/profile.d/conda.sh" ]; then\n' >> /etc/profile \
+ && echo '        . "/opt/miniconda/etc/profile.d/conda.sh"\n' >> /etc/profile \
+ && echo '    else\n' >> /etc/profile \
+ && echo '        export PATH="/opt/miniconda/bin:$PATH"\n' >> /etc/profile \
+ && echo '    fi\n' >> /etc/profile \
+ && echo 'fi\n' >> /etc/profile \
+ && echo 'unset __conda_setup\n'  >> /etc/profile \
  && eval "$('/opt/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)" \
  && echo 'channels:\n\
   - defaults\n\
@@ -33,13 +43,14 @@ custom_channels:\n\
   bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud\n\
   menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud\n\
   pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud\n\
-  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud\n' > ~/.condarc \
- && conda clean -i \
- && conda install -y -c pytorch \
+  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud\n' > /opt/miniconda/.condarc \
+ && conda clean -i
+
+RUN conda install -y -c pytorch \
     python=3.8.3 pytorch=1.6.0 cudatoolkit=10.1 tensorboard=2.2.1 \
  && conda clean -ya \
  && pip install --no-cache-dir \
-    transformers==4.3.0 py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 fairseq==0.10.2 pyarrow==4.0.0 miditoolkit==0.1.14 tensorboardx==2.2
+    transformers==4.3.0 py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 fairseq==0.10.2 pyarrow==4.0.0 miditoolkit==0.1.14 tensorboardx==2.2 taorunner==1.0b1
 
 # Install apex  https://github.com/NVIDIA/apex/issues/1043
 RUN git clone https://github.com/NVIDIA/apex \
@@ -50,3 +61,5 @@ RUN git clone https://github.com/NVIDIA/apex \
     --global-option="--fast_multihead_attn" ./ \
  && cd .. \
  && rm -rf ./apex
+
+ RUN chmod -R 777 /opt/miniconda
