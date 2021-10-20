@@ -31,7 +31,7 @@ RUN conda init \
     python=3.8 pytorch=1.9.1 cudatoolkit=10.2 tensorboard=2.2.1 jupyter numpy \
  && conda clean -ya \
  && pip install --no-cache-dir \
-    transformers==4.3.0 matplotlib pytorch_lightning==1.4.9 py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 fairseq==0.10.2 pyarrow==4.0.0 miditoolkit==0.1.14
+    tensorboardX transformers==4.3.0 matplotlib pytorch_lightning==1.4.9 py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 fairseq==0.10.2 pyarrow==4.0.0 miditoolkit==0.1.14
 
 # Install apex
 RUN git clone https://github.com/NVIDIA/apex \
