@@ -18,7 +18,7 @@ RUN conda init \
  && eval "$('/opt/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)" \
  && chmod -R 777 /opt/miniconda \
  && conda clean -i \
- && conda install -y -c pytorch=1.10.1 \
+ && conda install -y -c pytorch \
     python=3.9 pytorch=1.10.1 cudatoolkit=11.3.1 tensorboard jupyter numpy \
  && conda clean -ya \
  && pip install --no-cache-dir \
