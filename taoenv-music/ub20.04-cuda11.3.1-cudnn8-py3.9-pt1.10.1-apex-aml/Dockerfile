@@ -19,7 +19,7 @@ RUN conda init \
  && chmod -R 777 /opt/miniconda \
  && conda clean -i \
  && conda install -y -c pytorch \
-    python=3.9 pytorch=1.10.1 cudatoolkit=11.3.1 tensorboard jupyter numpy \
+    python=3.7 pytorch=1.10.1 cudatoolkit=11.3.1 tensorboard jupyter numpy \
  && conda clean -ya \
  && pip install --no-cache-dir \
     tensorboardX transformers==4.10 matplotlib pytorch_lightning==1.4.9 py-midi==2.0.1 pretty_midi==0.2.9 pypianoroll==0.4.0 fairseq==0.10.2 pyarrow==4.0.0 miditoolkit==0.1.14 
