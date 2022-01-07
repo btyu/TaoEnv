@@ -8,9 +8,18 @@ WORKDIR /root
 # Install some basic utilities
 RUN apt-get update \
  && apt-get install -y \
-    wget gcc libxml2-dev libxslt1-dev zlib1g-dev g++ vim git  cmake  libncurses5-dev libncursesw5-dev screen  nvtop \
+    wget gcc libxml2-dev libxslt1-dev zlib1g-dev g++ vim git  cmake  libncurses5-dev libncursesw5-dev screen \
  && apt-get clean -y \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ # nvtop
+ && git clone https://github.com/Syllo/nvtop.git \
+ && mkdir -p nvtop/build \
+ && cd nvtop/build \
+ && cmake .. \
+ && make \
+ && make install \
+ && cd ../.. \
+ && rm -r nvtop
 
 # Install Miniconda and Python Packages
 ENV CONDA_AUTO_UPDATE_CONDA=false
